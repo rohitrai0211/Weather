@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Widget</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  
+  .weather {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+</style>
+</head>
+<body>
+
+<div class="weather" id="weather">
+  <!-- Weather information will be displayed here -->
+</div>
+
+<script>
+// Replace with your OpenWeatherMap API key
+const apiKey = 'YOUR_API_KEY';
+
+function getWeather() {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=New York&appid=${apiKey}&units=metric`)
+    .then(response => response.json())
+    .then(data => {
+      const { main, weather } = data;
+      const temperature = main.temp;
+      const description = weather[0].description;
+      
+      const weatherInfo = `Current Temperature: ${temperature}°C<br>Weather: ${description}`;
+      
+      document.getElementById('weather').innerHTML = weatherInfo;
+    })
+    .catch(error => {
+      console.error('Error fetching weather data:', error);
+      document.getElementById('weather').textContent = 'Error fetching weather data';
+    });
+}
+
+// Initial call to fetch weather data
+getWeather();
+</script>
+
+</body>
+</html>
